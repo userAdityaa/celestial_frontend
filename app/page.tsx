@@ -32,7 +32,7 @@ export default function Home() {
     setTimeout(() => {
       setLoading(false);
       router.push("/slot"); 
-    }, 2800);
+    }, 2700);
   };
 
   useEffect(() => {
