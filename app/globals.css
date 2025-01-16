@@ -71,3 +71,30 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes realistic-fall {
+  0% {
+    transform: translateY(-100%) rotate(12deg);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  60% {
+    transform: translateY(40vh) rotate(12deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  75% {
+    transform: translateY(30vh) rotate(12deg);
+    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+  }
+  90% {
+    transform: translateY(35vh) rotate(12deg);
+    animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  100% {
+    transform: translateY(35vh) rotate(12deg);
+    animation-timing-function: ease-out;
+  }
+}
+
+.animate-realistic-fall {
+  animation: realistic-fall 1.5s forwards;
+}
