@@ -1,7 +1,15 @@
+'use client'
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
+  const pathname = usePathname();
+  
+  if (pathname === "/slot") {
+    return null;
+  }
+
   return (
     <nav className="fixed top-0 w-full bg-transparent z-50">
       <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-2">
@@ -18,7 +26,6 @@ export default function Navbar() {
               <span className="ml-2 text-white text-xl font-semibold">Celestial</span>
             </Link>
           </div>
-
           <div className="hidden md:flex items-center space-x-8">
             <Link href="/" className="text-white hover:text-gray-300">
               Home
@@ -39,10 +46,9 @@ export default function Navbar() {
               Blog
             </Link>
           </div>
-
           <div>
-            <Link 
-              href="/reservation" 
+            <Link
+              href="/reservation"
               className="bg-[#D1F366] text-black px-4 py-2 rounded-lg font-medium hover:bg-[#bde052] transition-colors"
             >
               Reservation
