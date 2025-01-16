@@ -2,6 +2,8 @@
 import Image from "next/image";
 import { Cinzel } from "next/font/google";
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Container from "./components/container";
 
 const cinzel = Cinzel({
   subsets: ['latin'],
@@ -9,7 +11,9 @@ const cinzel = Cinzel({
 });
 
 export default function Home() {
+  const router = useRouter();
   const [isPlaying, setIsPlaying] = useState(false);
+  const [loading, setLoading] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const togglePlay = () => {
@@ -23,6 +27,14 @@ export default function Home() {
     }
   };
 
+  const handleRevealTarot = () => {
+    setLoading(true); 
+    setTimeout(() => {
+      setLoading(false);
+      router.push("/slot"); 
+    }, 2800);
+  };
+
   useEffect(() => {
     return () => {
       if (audioRef.current) {
@@ -30,6 +42,14 @@ export default function Home() {
       }
     };
   }, []);
+
+  const LoadingScreen = () => {
+    return (
+      <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-50">
+        <Container/>
+      </div>
+    );
+  };
 
   return (
     <div className={`relative w-full min-h-screen ${cinzel.className}`}>
@@ -75,10 +95,13 @@ export default function Home() {
           <div className="bg-black/30 backdrop-blur-sm rounded-lg p-6 space-y-6">
             <input
               type="text"
-              placeholder="Enter your Twitter/X username"
-              className="w-full px-4 py-3 rounded-lg bg-white/10 border border-purple-300/30 text-white placeholder-purple-200 focus:outline-none focus:ring-2 focus:ring-purple-400"
+              placeholder="Enter your X username"
+              className="w-full px-4 py-3 rounded-lg bg-white/10 border border-purple-300/30 text-white placeholder-purple-200 focus:outline-none focus:ring-2 focus:ring-purple-400 font-sans"
             />
-            <button className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-lg transition duration-300">
+            <button 
+              onClick={handleRevealTarot}
+              className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-lg transition duration-300"
+            >
               Reveal My Tarot Card
             </button>
           </div>
@@ -87,6 +110,8 @@ export default function Home() {
           ✨ Unveil the mystical connection between your tweets and the cards
         </div>
       </main>
+
+      {loading && <LoadingScreen />}
     </div>
   );
 }
