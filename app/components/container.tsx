@@ -18,6 +18,17 @@ const Container = () => {
     "/images/ten.png",
     "/images/eleven.png",
     "/images/twelve.png",
+    "/images/seventh.png",
+    "/images/eight.png",
+    "/images/ninth.png",
+    "/images/third.png",
+    "/images/four.png",
+    "/images/fifth.png",
+    "/images/sixth.png",
+    "/images/first.png",
+    "/images/second.png",
+    "/images/third.png",
+    "/images/four.png",
   ];
 
   const handleShuffle = () => {
@@ -74,14 +85,14 @@ const Container = () => {
               ],
               {
                 delay: index * 40, // Slightly faster sequence for more cards
-                duration: 12000,
+                duration: 7000,
                 easing: "cubic-bezier(0.14, 0.8, 0.4, 0.97)",
                 fill: "forwards",
               }
             );
           }
         });
-      }, 400);
+      }, 300);
     }
   };
 
