@@ -28,11 +28,10 @@ export default function Home() {
   };
 
   const handleRevealTarot = () => {
-    setLoading(true); 
+    setLoading(true);
     setTimeout(() => {
-      setLoading(false);
-      router.push("/slot"); 
-    }, 2700);
+      router.push('/slot');
+    }, 2000);
   };
 
   useEffect(() => {
@@ -45,7 +44,14 @@ export default function Home() {
 
   const LoadingScreen = () => {
     return (
-      <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-50">
+      <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
+        <Image
+          src="/images/background_image.png"
+          alt="Mystical night sky background"
+          fill
+          className="object-cover z-0"
+          priority
+        />
         <Container/>
       </div>
     );

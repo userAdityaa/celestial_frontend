@@ -98,3 +98,32 @@ body {
 .animate-realistic-fall {
   animation: realistic-fall 1.5s forwards;
 }
+
+@keyframes levitate {
+  0%, 100% {
+    transform: translateY(0); /* No movement at start and end */
+  }
+  50% {
+    transform: translateY(-10px); /* Slight upward movement */
+  }
+}
+
+.animate-levitate { 
+  animation: levitate 1.5s ease;
+}
+/* 
+@keyframes levitate {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+} */
+
+/* .animate-levitate {
+  animation: levitate 2s ease-in-out infinite;
+} */
