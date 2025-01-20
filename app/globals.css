@@ -111,19 +111,12 @@ body {
 .animate-levitate { 
   animation: levitate 1.5s ease;
 }
-/* 
-@keyframes levitate {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-} */
 
-/* .animate-levitate {
-  animation: levitate 2s ease-in-out infinite;
-} */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
+}
+
+.scrollbar-hide {
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+  -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+}
