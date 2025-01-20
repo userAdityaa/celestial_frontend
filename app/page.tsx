@@ -73,7 +73,6 @@ export default function Home() {
     }
   };
 
-  // Handle "Enter" key press
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleRevealTarot();
@@ -118,7 +117,7 @@ export default function Home() {
       )}
 
       <Image
-        src="/images/background_image.png"
+        src="/images/background.png"
         alt="Mystical night sky background"
         fill
         className="object-cover z-0"

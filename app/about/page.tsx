@@ -5,9 +5,8 @@ import Image from "next/image";
 export default function About() {
   return (
     <div className="flex justify-center items-center min-h-screen relative">
-      {/* Background Image */}
       <Image
-        src="/images/background_image.png"
+        src="/images/background.png"
         alt="Mystical night sky background"
         fill
         className="object-cover z-0"
@@ -36,7 +35,6 @@ export default function About() {
         `}
       >
         <div className="flex w-full p-8">
-          {/* Creator Image */}
           <div className="fixed top-[1.8rem] left-[3rem] w-[380px] h-[300px]">
             <Image
               src="/images/creator_image.jpg"
@@ -47,7 +45,6 @@ export default function About() {
             />
           </div>
 
-          {/* Scrollable Content */}
           <ScrollArea className="flex flex-col justify-end items-start pl-6 w-[80rem] ml-[20rem] max-h-[60vh] overflow-y-auto">
             <p className="text-yellow-200 text-2xl font-bold mb-[1rem] font-serif scrollbar-hide">About the Application</p>
             <h2 className="text-5xl font-bold mb-[1.5rem] text-white font-serif">
