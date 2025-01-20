@@ -1,5 +1,6 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
+import { Suspense } from 'react';
 import { Card } from '@/components/ui/card';
 import Image from 'next/image';
 import { Trophy } from 'lucide-react';
@@ -13,6 +14,15 @@ const archivo = Archivo({
   subsets: ['latin'],
   weight: '700',
 });
+
+export default function SlotPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Slot/>
+    </Suspense>
+  );
+}
+
 
 const cardImageMap: Record<string, string> = {
   'The Fool': 'https://res.cloudinary.com/dhu2vsl1k/image/upload/v1737191086/kzto9yndm6t1lxkkfgx6.png',
@@ -282,5 +292,3 @@ const Slot = () => {
     </div>
   );
 };
-
-export default Slot;
