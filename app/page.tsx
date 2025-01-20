@@ -1,9 +1,12 @@
-'use client'
+'use client';
 import Image from "next/image";
 import { Cinzel } from "next/font/google";
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useAudio } from "./context/AudioContext";
 import Container from "./components/container";
+import axios from 'axios';
+import AudioButton from "./components/AudioButton";
 
 const cinzel = Cinzel({
   subsets: ['latin'],
@@ -12,26 +15,69 @@ const cinzel = Cinzel({
 
 export default function Home() {
   const router = useRouter();
-  const [isPlaying, setIsPlaying] = useState(false);
+  const { isPlaying, togglePlay, initializeAudio } = useAudio();
   const [loading, setLoading] = useState(false);
+  const [username, setUsername] = useState("");
+  const [error, setError] = useState("");
+  const [showWelcomeModal, setShowWelcomeModal] = useState(true);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const togglePlay = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-      } else {
-        audioRef.current.play();
+  const handleWelcomeInteraction = () => {
+    initializeAudio();
+    setShowWelcomeModal(false);
+  };
+
+  const handleRevealTarot = async () => {
+    if (!username.trim()) {
+      setError("Please enter a valid username.");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/user/tarot-reading?username=${encodeURIComponent(username)}`
+      );
+
+      if (response.status !== 200) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      setIsPlaying(!isPlaying);
+
+      const data = response.data;
+
+      if (!data.reading.card_name || !data.reading.analysis_summary?.dominant_theme) {
+        throw new Error("Invalid response from the server.");
+      }
+
+      const sanitizedUsername = username.trim().replace(/[^a-zA-Z0-9-_]/g, "");
+
+      const userData = { username: sanitizedUsername, ...data };
+      localStorage.setItem(sanitizedUsername, JSON.stringify(userData));
+      console.log(localStorage.getItem(sanitizedUsername));
+
+      try {
+        router.push(`/slot?username=${sanitizedUsername}`);
+      } catch (error) {
+        console.error("Error navigating to the next page:", error);
+        setError("An error occurred while navigating. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error fetching tarot reading:", error);
+      setError(
+        "An error occurred while fetching your tarot reading. Please try again."
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleRevealTarot = () => {
-    setLoading(true);
-    setTimeout(() => {
-      router.push('/slot');
-    }, 2000);
+  // Handle "Enter" key press
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleRevealTarot();
+    }
   };
 
   useEffect(() => {
@@ -45,20 +91,32 @@ export default function Home() {
   const LoadingScreen = () => {
     return (
       <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
-        <Image
-          src="/images/background_image.png"
-          alt="Mystical night sky background"
-          fill
-          className="object-cover z-0"
-          priority
-        />
-        <Container/>
+        <Container />
       </div>
     );
   };
 
   return (
     <div className={`relative w-full min-h-screen ${cinzel.className}`}>
+      {showWelcomeModal && (
+        <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
+          <div className="bg-black rounded-lg p-8 text-center">
+            <h1 className="text-4xl md:text-5xl mb-4 text-white">
+              Welcome to Cosmic Twitter Tales
+            </h1>
+            <p className="text-lg md:text-xl mb-8 text-purple-200">
+              Click below to enter and unveil your destiny
+            </p>
+            <button
+              onClick={handleWelcomeInteraction}
+              className="bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-lg transition duration-300"
+            >
+              Enter Site
+            </button>
+          </div>
+        </div>
+      )}
+
       <Image
         src="/images/background_image.png"
         alt="Mystical night sky background"
@@ -73,22 +131,7 @@ export default function Home() {
         loop
       />
 
-      <button 
-        onClick={togglePlay}
-        className="fixed bottom-6 right-6 z-20 bg-black/30 hover:bg-purple-600/50 text-white w-12 h-12 rounded-full backdrop-blur-sm flex items-center justify-center transition-all duration-300 border border-purple-300/30"
-        aria-label={isPlaying ? "Pause background music" : "Play background music"}
-      >
-        {isPlaying ? (
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="6" y="4" width="4" height="16"></rect>
-            <rect x="14" y="4" width="4" height="16"></rect>
-          </svg>
-        ) : (
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <polygon points="5 3 19 12 5 21 5 3"></polygon>
-          </svg>
-        )}
-      </button>
+      <AudioButton/>
 
       <main className="relative z-10 flex flex-col items-center justify-center min-h-screen text-white text-center px-4">
         <h1 className="text-5xl md:text-7xl mb-4 leading-tight">
@@ -102,13 +145,18 @@ export default function Home() {
             <input
               type="text"
               placeholder="Enter your X username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              onKeyDown={handleKeyDown} 
               className="w-full px-4 py-3 rounded-lg bg-white/10 border border-purple-300/30 text-white placeholder-purple-200 focus:outline-none focus:ring-2 focus:ring-purple-400 font-sans"
             />
+            {error && <p className="text-red-400 text-sm">{error}</p>}
             <button 
               onClick={handleRevealTarot}
               className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-lg transition duration-300"
+              disabled={loading}
             >
-              Reveal My Tarot Card
+              {loading ? "Loading..." : "Reveal My Tarot Card"}
             </button>
           </div>
         </div>
