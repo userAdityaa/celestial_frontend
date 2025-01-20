@@ -55,7 +55,15 @@ export default {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
-  		}
+  		}, 
+		screens: { 
+			'max-ipad': {
+  				max: '1150px'
+  			},
+  			'max-phone': {
+  				max: '550px'
+  			}
+		},
   	}
   },
   plugins: [require("tailwindcss-animate")],
