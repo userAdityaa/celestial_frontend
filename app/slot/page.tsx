@@ -253,7 +253,7 @@ const Slot = () => {
                 <h3 className="text-2xl font-bold mb-3 text-yellow-200">Theme Distribution</h3>
                 <div className="space-y-3">
                   {Object.entries(tarotReadingData.analysis_summary.theme_distribution).map(([theme, frequency]) => {
-                    let adjustedFrequency = frequency * 100;
+                    let adjustedFrequency = Number(frequency) * 100;
                     if (adjustedFrequency < 10) {
                       adjustedFrequency += 50; // Increase smaller percentages by 30%
                     }
