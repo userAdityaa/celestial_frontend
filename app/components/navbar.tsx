@@ -2,13 +2,31 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const pathname = usePathname();
-  
+  const [value, setValue] = useState('About');
+  const [href, setHref] = useState('/about');
+
   if (pathname === "/slot") {
     return null;
   }
+
+  if (pathname === '/about') { 
+    if(value != 'Go Back')
+      setValue('Go Back')
+    if(href != '/')
+      setHref('/')
+  }
+
+  if(pathname === '/') { 
+    if(value != 'About')
+      setValue('About')
+    if(href != '/about')
+        setHref("/about")
+  }
+
 
   return (
     <nav className="fixed top-0 w-full bg-transparent z-50">
@@ -26,32 +44,12 @@ export default function Navbar() {
               <span className="ml-2 text-white text-xl font-semibold">Celestial</span>
             </Link>
           </div>
-          <div className="hidden md:flex items-center space-x-8">
-            <Link href="/" className="text-white hover:text-gray-300">
-              Home
-            </Link>
-            <Link href="/about" className="text-white hover:text-gray-300">
-              About Us
-            </Link>
-            <Link href="/readers" className="text-white hover:text-gray-300">
-              Readers
-            </Link>
-            <Link href="/services" className="text-white hover:text-gray-300">
-              Services
-            </Link>
-            <Link href="/horoscope" className="text-white hover:text-gray-300">
-              Horoscope
-            </Link>
-            <Link href="/blog" className="text-white hover:text-gray-300">
-              Blog
-            </Link>
-          </div>
           <div>
             <Link
-              href="/reservation"
+              href={href}
               className="bg-[#D1F366] text-black px-4 py-2 rounded-lg font-medium hover:bg-[#bde052] transition-colors"
             >
-              Reservation
+              {value}
             </Link>
           </div>
         </div>
