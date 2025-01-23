@@ -163,7 +163,7 @@ const Slot = () => {
     <div className="h-screen w-full bg-gradient-to-b from-[#321c4f] to-black flex items-center justify-center relative overflow-hidden">
       <AudioButton />
       <Image
-        src="/images/background_image.png"
+        src="/images/background.png"
         alt="Mystical night sky background"
         fill
         className="object-cover z-0"
