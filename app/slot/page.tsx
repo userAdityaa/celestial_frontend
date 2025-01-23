@@ -23,6 +23,17 @@ export default function SlotPage() {
   );
 }
 
+const formatPlainText = (text: string) => {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '$1')
+    .replace(/#+\s*/g, '')
+    .replace(/\*\s*/g, '• ')
+    .replace(/\n{3,}/g, '\n\n')
+    .replace(/(\d\.)\s+/g, '\n$1 ')
+    .replace(/for @\S+/g, '')
+    .trim();
+};
+
 
 const cardImageMap: Record<string, string> = {
   'The Fool': 'https://res.cloudinary.com/dhu2vsl1k/image/upload/v1737191086/kzto9yndm6t1lxkkfgx6.png',
@@ -259,29 +270,42 @@ const Slot = () => {
                   <p className="text-start">{cardDetails.desc}</p>
                 </div>
               )}
+              <div className="w-full space-y-6 text-white/90 mb-[4rem]">
               <div className="bg-white/10 p-6 rounded-lg">
                 <h3 className="text-2xl font-bold mb-3 text-yellow-200">Theme Distribution</h3>
                 <div className="space-y-3">
-                  {Object.entries(tarotReadingData.analysis_summary.theme_distribution).map(([theme, frequency]) => {
-                    let adjustedFrequency = Number(frequency) * 100;
-                    if (adjustedFrequency < 10) {
-                      adjustedFrequency += 50; // Increase smaller percentages by 30%
+                  {Object.entries(tarotReadingData.theme_distribution).map(([theme, value]) => {
+                    const percentage = Number(value) * 100;
+                    let scaledWidth = percentage;
+
+    
+                    if (percentage >= 30 && percentage <= 40) {
+                      scaledWidth = percentage;
+                    } else if (percentage >= 20 && percentage < 30) {
+                      scaledWidth = percentage + 10; 
+                    } else if (percentage >= 10 && percentage < 20) {
+                      scaledWidth = percentage + 20;
                     }
-                    if (adjustedFrequency < 30) {
-                      adjustedFrequency += 60; // Increase smaller percentages by 30%
-                    }
+
                     return (
                       <div key={theme}>
-                        <strong>{theme}:</strong> {adjustedFrequency.toFixed(1)}%
+                        <strong>{theme.replace(/_/g, ' ')}:</strong> {percentage.toFixed(1)}%
                         <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
                           <div
                             className="bg-yellow-200 h-2.5 rounded-full"
-                            style={{ width: `${adjustedFrequency}%` }}
+                            style={{ width: `${scaledWidth}%` }}
                           ></div>
                         </div>
                       </div>
                     );
                   })}
+                </div>
+              </div>
+            </div>
+              <div className="bg-white/10 p-6 rounded-lg">
+                <h3 className="text-2xl font-bold mb-3 text-yellow-200">Personalized Analysis</h3>
+                <div className="text-start whitespace-pre-wrap">
+                  {formatPlainText(tarotReadingData.reason)}
                 </div>
               </div>
             </div>
