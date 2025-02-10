@@ -240,7 +240,7 @@ const Slot = () => {
               alt="Person"
               width={3000}
               height={2000}
-              className="absolute z-10 transform -translate-y-10 transition-all ease-linear max-phone:w-[9rem]"
+              className="absolute z-10 transform -translate-y-10 transition-all ease-linear max-phone:w-[8rem] max-phone:mt-[7vh]"
               style={{
                 top: '125%',
                 left: '50%',
@@ -259,12 +259,13 @@ const Slot = () => {
               hover:scale-110
               animate-realistic-fall
               relative overflow-hidden z-20
-              max-phone:w-[6rem]
+              max-phone:w-[11rem]
+              max-phone:h-[12rem]
             `}
             style={{ position: 'relative' }}
           >
-            <span className="text-8xl font-bold text-black z-10">?</span>
-            <span className="mt-4 text-lg text-black z-10 font-bold">Tap to Reveal</span>
+            <span className="text-8xl font-bold text-black z-10 max-phone:text-3xl">?</span>
+            <span className="mt-4 text-lg text-black z-10 font-bold max-phone:text-[1.2rem]">Tap to Reveal</span>
           </Card>
         </div>
       )}
