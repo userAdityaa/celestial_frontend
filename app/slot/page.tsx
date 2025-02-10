@@ -383,23 +383,23 @@ const Slot = () => {
           absolute
           top-[0.5rem]
           transition-all duration-100
-          w-[92vw]
+          w-[85vw]
           min-h-[80vh]
         `}
       >
 
-        <div className="flex flex-col items-start justify-start w-full p-2">
+        <div className="flex flex-col items-center justify-start w-full p-2">
           <div className="flex items-center justify-center w-[95%]">
             <Image
               src={imageUrl}
               alt={tarotReadingData.card_name}
               width={360}
               height={200}
-              className="object-contain max-w-[85vw] max-h-[70vh]"
+              className="w-[80vw] h-[58vh]"
             />
           </div>
 
-          <ScrollArea className="flex flex-col max-h-[60vh] overflow-y-auto p-3"> 
+          <ScrollArea className="flex flex-col max-h-[60vh] overflow-y-auto p-4"> 
             {/* <p className="text-yellow-200 text-2xl font-bold mt-[1.5rem] font-serif scrollbar-hide">Your Reveal Card/p> */}
             {/* <h2 className="text-5xl font-bold mb-[1.5rem] text-white font-serif">
               {tarotReadingData.card_name}
