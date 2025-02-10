@@ -9,6 +9,7 @@ import gsap from 'gsap';
 import { useSearchParams } from 'next/navigation';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import AudioButton from '../components/AudioButton';
+import TarotCardMobile from '../components/TarotCard';
 
 const archivo = Archivo({
   subsets: ['latin'],
@@ -248,11 +249,11 @@ const Slot = () => {
               }}
             />
           )}
-
           <Card
             ref={cardRef}
             onClick={handleCardClick}
             className={`
+              max-phone:overflow-y-scroll
               w-40 h-56 bg-opacity-15
               flex flex-col items-center justify-center transform
               transition-all duration-100 cursor-pointer
@@ -278,7 +279,7 @@ const Slot = () => {
         z-50 max-h-[90vh]
       `}
     >
-      <div className="absolute right-0 -top-[8rem] transform scale-x-[-1]"> 
+      <div className="absolute right-0 -top-[8rem] transform scale-x-[-1] max-phone:hidden"> 
         <Image src="/images/wizard.png" alt="wizard picture" width={330} height={250} />
       </div>
 
@@ -289,28 +290,28 @@ const Slot = () => {
           transition-all duration-100
           relative border-none
           max-h-[72vh]
+          max-phone:w-[92vw]
           mb-[1rem]
           top-[6.5rem]
+          max-phone:hidden
         `}
       >
-        <div className="absolute top-0 right-0 w-32 h-32">
-          <div className="absolute top-4 right-4 transform rotate-12">
-            <Trophy size={40} className="text-yellow-300" />
-          </div>
+        <div className="absolute top-4 right-4 transform rotate-12">
+          <Trophy size={40} className="text-yellow-300" />
         </div>
 
-        <div className="flex w-full p-8">
-          <div className="fixed top-[1.8rem] left-[3rem] w-[380px] h-[300px]">
+        <div className="flex w-full p-8 max-phone:flex-col max-phone:items-center max-phone:justify-center">
+          <div className="fixed top-[1.8rem] left-[3rem] w-[380px] h-[300px] max-phone:relative max-phone:top-0 max-phone:left-[1.8rem]">
             <Image
               src={imageUrl}
               alt={tarotReadingData.card_name}
               width={300}
               height={300}
-              className="object-contain"
+              className="object-contain max-phone:w-[85%]"
             />
           </div>
 
-          <ScrollArea className="flex flex-col justify-end items-start pl-6 w-[80rem] ml-[20rem] max-h-[60vh] overflow-y-auto"> 
+          <ScrollArea className="flex flex-col justify-end items-start pl-6 w-[80rem] ml-[20rem] max-h-[60vh] overflow-y-auto max-phone:hidden"> 
             <p className="text-yellow-200 text-2xl font-bold mb-[1rem] font-serif scrollbar-hide">Your Reveal Card</p>
             <h2 className="text-5xl font-bold mb-[1.5rem] text-white font-serif">
               {tarotReadingData.card_name}
@@ -370,6 +371,94 @@ const Slot = () => {
           </ScrollArea>
         </div>
       </Card>
+
+      <ScrollArea
+        className={`
+          md:hidden
+          rounded-xl
+          flex
+          flex-col justify-center items-center
+          p-2
+          bg-white/20 backdrop-blur-lg
+          absolute
+          top-[2rem]
+          transition-all duration-100
+          w-[92vw]
+          min-h-[80vh]
+        `}
+      >
+
+        <div className="flex flex-col items-start justify-start w-full p-2">
+          <div className="">
+            <Image
+              src={imageUrl}
+              alt={tarotReadingData.card_name}
+              width={360}
+              height={200}
+              className="object-contain max-w-[vw]"
+            />
+          </div>
+
+          <ScrollArea className="flex flex-col max-h-[60vh] overflow-y-auto p-3"> 
+            {/* <p className="text-yellow-200 text-2xl font-bold mt-[1.5rem] font-serif scrollbar-hide">Your Reveal Card</p> */}
+            {/* <h2 className="text-5xl font-bold mb-[1.5rem] text-white font-serif">
+              {tarotReadingData.card_name}
+            </h2> */}
+            {cardDetails && (
+              <p className="text-xl text-white/80 italic mb-4 text-start flex-wrap">
+                <strong>Meaning:</strong> {cardDetails.meaning_rev}
+              </p>
+            )}
+
+            <div className="w-full space-y-6 text-white/90 mb-[20rem]">
+              {cardDetails && (
+                <div className="bg-white/10 p-6 rounded-lg">
+                  <h3 className="text-2xl font-bold mb-3 text-yellow-200">Description</h3>
+                  <p className="text-start">{cardDetails.desc}</p>
+                </div>
+              )}
+              <div className="w-full space-y-6 text-white/90 mb-[4rem]">
+              <div className="bg-white/10 p-6 rounded-lg">
+                <h3 className="text-2xl font-bold mb-3 text-yellow-200">Theme Distribution</h3>
+                <div className="space-y-3">
+                  {Object.entries(tarotReadingData.theme_distribution).map(([theme, value]) => {
+                    const percentage = Number(value) * 100;
+                    let scaledWidth = percentage;
+
+    
+                    if (percentage >= 30 && percentage <= 40) {
+                      scaledWidth = percentage;
+                    } else if (percentage >= 20 && percentage < 30) {
+                      scaledWidth = percentage + 10; 
+                    } else if (percentage >= 10 && percentage < 20) {
+                      scaledWidth = percentage + 20;
+                    }
+
+                    return (
+                      <div key={theme}>
+                        <strong>{theme.replace(/_/g, ' ')}:</strong> {percentage.toFixed(1)}%
+                        <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                          <div
+                            className="bg-yellow-200 h-2.5 rounded-full"
+                            style={{ width: `${scaledWidth}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+              <div className="bg-white/10 p-6 rounded-lg">
+                <h3 className="text-2xl font-bold mb-3 text-yellow-200">Personalized Analysis</h3>
+                <div className="text-start whitespace-pre-wrap">
+                  {formatPlainText(tarotReadingData.reason)}
+                </div>
+              </div>
+            </div>
+          </ScrollArea>
+        </div>
+      </ScrollArea>
     </div>
     </div>
   );
