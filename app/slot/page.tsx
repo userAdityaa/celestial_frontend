@@ -240,7 +240,7 @@ const Slot = () => {
               alt="Person"
               width={3000}
               height={2000}
-              className="absolute z-10 transform -translate-y-10 transition-all ease-linear"
+              className="absolute z-10 transform -translate-y-10 transition-all ease-linear max-phone:w-[9rem]"
               style={{
                 top: '125%',
                 left: '50%',
@@ -259,6 +259,7 @@ const Slot = () => {
               hover:scale-110
               animate-realistic-fall
               relative overflow-hidden z-20
+              max-phone:w-[6rem]
             `}
             style={{ position: 'relative' }}
           >
