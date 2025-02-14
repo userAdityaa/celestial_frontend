@@ -383,8 +383,9 @@ const Slot = () => {
           absolute
           top-[0.5rem]
           transition-all duration-100
-          w-[85vw]
-          min-h-[80vh]
+          w-[95vw]
+          overflow-y-auto
+          h-[100vh]
         `}
       >
 
@@ -393,24 +394,20 @@ const Slot = () => {
             <Image
               src={imageUrl}
               alt={tarotReadingData.card_name}
-              width={360}
+              width={400}
               height={200}
-              className="w-[80vw] h-[58vh]"
+              className="w-[94vw] h-[70vh]"
             />
           </div>
 
-          <ScrollArea className="flex flex-col max-h-[60vh] overflow-y-auto p-4"> 
-            {/* <p className="text-yellow-200 text-2xl font-bold mt-[1.5rem] font-serif scrollbar-hide">Your Reveal Card/p> */}
-            {/* <h2 className="text-5xl font-bold mb-[1.5rem] text-white font-serif">
-              {tarotReadingData.card_name}
-            </h2> */}
+          <div className="flex flex-col max-h-[60vh] p-4"> 
             {cardDetails && (
               <p className="text-xl text-white/80 italic mb-4 text-start flex-wrap">
                 <strong>Meaning:</strong> {cardDetails.meaning_rev}
               </p>
             )}
 
-            <div className="w-full space-y-6 text-white/90 mb-[20rem]">
+            <div className="w-full space-y-6 text-white/90 mb-[40rem]">
               {cardDetails && (
                 <div className="bg-white/10 p-6 rounded-lg">
                   <h3 className="text-2xl font-bold mb-3 text-yellow-200">Description</h3>
@@ -456,7 +453,7 @@ const Slot = () => {
                 </div>
               </div>
             </div>
-          </ScrollArea>
+          </div>
         </div>
       </ScrollArea>
     </div>
