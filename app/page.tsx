@@ -96,9 +96,9 @@ export default function Home() {
       <div className="fixed inset-0 bg-black flex flex-col items-center justify-center z-50">
         <Container />
         <div className="mt-8 flex flex-col items-center gap-4">
-          <div className="relative">
+            <div className="relative max-phone:bottom-12 max-phone:contrast-more:text-xl">
             <div className="absolute inset-0 bg-purple-500/20 blur-xl"></div>
-            <div className="relative flex items-center gap-2 text-xl text-purple-100">
+            <div className="relative flex items-center gap-2 text-purple-100">
               <svg 
                 className="animate-spin h-6 w-6 text-purple-300" 
                 xmlns="http://www.w3.org/2000/svg" 
